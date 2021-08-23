@@ -1,0 +1,17 @@
+<?php
+    try {
+        $pdo = new \PDO('mysql:host=localhost;dbname=second_project;charset=utf8', 'root', '', [
+            PDO::ATTR_EMULATE_PREPARES => false, 
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+        ]);
+    } catch(\PDOException $e) {
+        echo "Error connecting to mysql: " . $e->getMessage();
+    }
+
+    if($_POST && isset($_POST['submit'])) {
+        $name = trim($_POST['name']);
+        $email = trim($_POST['email']);
+        $stmt = $pdo->prepare("INSERT INTO `sub_email` (name, email) VALUES (:name, :email)");
+        $stmt->execute(array(':name' => $name, ':email' => $email));
+    }
+
